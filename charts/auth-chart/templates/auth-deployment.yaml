@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  namespace: qmessentials
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: qmessentials
+      service: auth
+  template:
+    metadata:
+      labels:
+        app: qmessentials
+        service: auth
+    spec:
+      containers:
+      - name: qmessentials-auth
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: Never
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        env:
+        - name: PORT
+          value: "{{ .Values.service.port }}"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: auth-postgres-secret
+              key: AUTH_POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auth-postgres-secret
+              key: AUTH_POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          value: auth_db

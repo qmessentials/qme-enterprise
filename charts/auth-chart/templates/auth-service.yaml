@@ -9,6 +9,6 @@ spec:
     service: auth
   ports:
     - protocol: TCP
-      port: 3010  # External port
-      targetPort: 3010  # Container port
-  type: ClusterIP
+      port: {{ .Values.service.port }}  # External port
+      targetPort: {{ .Values.service.port }}  # Container port
+  type: {{ .Values.service.type }}

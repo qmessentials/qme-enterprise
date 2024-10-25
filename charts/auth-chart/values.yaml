@@ -1,0 +1,15 @@
+replicaCount: 2
+
+image:
+  repository: qmessentials/auth
+  tag: latest
+
+service:
+  port: 3010
+  type: ClusterIP
+
+postgres:
+  containerPort: 5432
+  storage:
+    size: 5Gi
+    mountPath: /var/lib/postgresql/data

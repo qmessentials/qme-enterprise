@@ -1,0 +1,5 @@
+title = auth
+server = localhost
+port = 5432
+database = auth_db
+user = auth_user
