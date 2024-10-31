@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: opensearch-cluster
+  namespace: qmessentials
+spec:
+  serviceName: "opensearch-cluster"
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: opensearch
+  template:
+    metadata:
+      labels:
+        app: opensearch
+    spec:
+      containers:
+      - name: opensearch
+        image: opensearchproject/opensearch:2.17.0
+        ports:
+        - containerPort: 9200
+        volumeMounts:
+        - name: opensearch-storage
+          mountPath: /usr/share/opensearch/data
+        env:
+        - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: opensearch-admin-secret
+              key: OPENSEARCH_INITIAL_ADMIN_PASSWORD
+        - name: OPENSEARCH_JAVA_OPTS
+          value: "-Dopensearch.distribution.type=default"
+        - name: OPENSEARCH_SECURITY_DISABLE_SSL
+          value: "true"
+        - name: OPENSEARCH_SECURITY_DEMO_MODE
+          value: "true"
+        - name: OPENSEARCH_DISCOVERY_SEED_HOSTS
+          value: "opensearch-cluster-0"
+        - name: OPENSEARCH_CLUSTER_INITIAL_MASTER_NODES
+          value: "opensearch-cluster-0"
+  volumeClaimTemplates:
+  - metadata:
+      name: opensearch-storage
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.storage.size }}
+          memory: "2Gi"
+        limits:
+          memory: "4Gi"
+      storageClassName: {{ .Values.storageClassName }}
