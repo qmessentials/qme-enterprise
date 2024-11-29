@@ -1,5 +1,0 @@
-apiVersion: v2
-name: logging
-description: Helm chart for the logging service
-version: 0.1.0
-appVersion: 0.1.0

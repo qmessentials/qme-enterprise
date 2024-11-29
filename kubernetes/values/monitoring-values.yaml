@@ -1,0 +1,36 @@
+replicas: 1
+storage:
+  size: 40Gi
+storageClassName: ""  # Use default storage class
+hostPath: "/usr/local/data/k8s-pvs/opensearch"  # Path on your laptop
+service:
+  httpPort: 9200       # Port for HTTP access
+  transportPort: 9300  # Port for inter-node communication
+  type: ClusterIP      # Set to ClusterIP, NodePort, or LoadBalancer based on your needs
+config:
+  outputs: |
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host opensearch-cluster.qmessentials.svc.cluster.local
+        Logstash_Format On
+        Retry_Limit False
+
+resources:
+  limits:
+    memory: "200Mi"
+    cpu: "500m"
+  requests:
+    memory: "100Mi"
+    cpu: "100m"
+
+# OpenSearch settings
+opensearch:
+  host: "opensearch-cluster.qmessentials.svc.cluster.local"
+  port: 9200
+
+# Fluent Bit configuration
+fluentbit:
+  logLevel: "info"
+  httpPort: 2020
+  tailPaths: "/var/log/*.log"
