@@ -10,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
+	"github.com/qmessentials/qme-enterprise/auth/config"
 	"github.com/qmessentials/qme-enterprise/auth/repositories"
 )
 
@@ -17,8 +18,15 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/New_York", os.Getenv("PGHOST"),
-		os.Getenv("PGUSER"), os.Getenv("PGPASSWORD"), os.Getenv("PGDATABASE"), os.Getenv("PGPORT"))
+	config, err := config.NewConfig()
+	if err != nil {
+		logger.Error("Unable to read configuration", "error", err)
+		panic(err)
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%v sslmode=disable TimeZone=America/New_York",
+		config.Postgres.DBHost, config.Postgres.DBUser, config.Postgres.DBPassword,
+		config.Postgres.DBName, config.Postgres.DBPort)
 
 	conn, err := pgx.Connect(context.Background(), dsn)
 	if err != nil {

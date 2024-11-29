@@ -33,11 +33,15 @@ spec:
         - name: OPENSEARCH_SECURITY_DISABLE_SSL
           value: "true"
         - name: OPENSEARCH_SECURITY_DEMO_MODE
-          value: "true"
-        - name: OPENSEARCH_DISCOVERY_SEED_HOSTS
-          value: "opensearch-cluster-0"
-        - name: OPENSEARCH_CLUSTER_INITIAL_MASTER_NODES
-          value: "opensearch-cluster-0"
+          value: "false"
+        - name: discovery.type
+          value: "single-node"
+        - name: OPENSEARCH_SECURITY_SSL_HTTP_ENABLED
+          value: "false"
+        - name: OPENSEARCH_SECURITY_SSL_TRANSPORT_ENABLED
+          value: "false"
+        - name: plugins.security.disabled
+          value: "true"          
   volumeClaimTemplates:
   - metadata:
       name: opensearch-storage

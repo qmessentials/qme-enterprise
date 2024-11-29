@@ -1,0 +1,19 @@
+# Resources
+resources:
+  limits:
+    memory: "200Mi"
+    cpu: "500m"
+  requests:
+    memory: "100Mi"
+    cpu: "100m"
+
+# OpenSearch settings
+opensearch:
+  host: "opensearch-cluster.qmessentials.svc.cluster.local"
+  port: 9200
+
+# Fluent Bit configuration
+fluentbit:
+  logLevel: "info"
+  httpPort: 2020
+  tailPaths: "/var/log/*.log"
