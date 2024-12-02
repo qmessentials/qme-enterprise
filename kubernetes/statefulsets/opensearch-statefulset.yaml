@@ -5,7 +5,7 @@ metadata:
   namespace: qmessentials
 spec:
   serviceName: "opensearch-cluster"
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: opensearch
@@ -50,8 +50,8 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.storage.size }}
+          storage: "40Gi"
           memory: "2Gi"
         limits:
           memory: "4Gi"
-      storageClassName: {{ .Values.storageClassName }}
+      storageClassName: ""

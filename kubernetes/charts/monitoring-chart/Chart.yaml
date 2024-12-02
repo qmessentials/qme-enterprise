@@ -1,5 +1,0 @@
-apiVersion: v2
-name: monitoring
-description: Monitoring components
-version: 0.1.0
-appVersion: "1.0"

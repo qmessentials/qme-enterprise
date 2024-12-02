@@ -4,7 +4,7 @@ metadata:
   name: auth
   namespace: qmessentials
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: qmessentials
@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
       - name: qmessentials-auth
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: qmessentials/auth:0.1.0
         imagePullPolicy: Never
         ports:
-        - containerPort: {{ .Values.service.port }}
+        - containerPort: 3010
         env:
         - name: PORT
-          value: "{{ .Values.service.port }}"
+          value: 3010
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
