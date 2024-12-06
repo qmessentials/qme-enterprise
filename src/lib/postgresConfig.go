@@ -1,4 +1,4 @@
-package config
+package lib
 
 const PostgresDefaultPort = 5432
 

@@ -10,7 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5"
-	"github.com/qmessentials/qme-enterprise/auth/config"
 	"github.com/qmessentials/qme-enterprise/auth/repositories"
 )
 
@@ -18,7 +17,7 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
-	config, err := config.NewConfig()
+	config, err := lib.NewConfig()
 	if err != nil {
 		logger.Error("Unable to read configuration", "error", err)
 		panic(err)
